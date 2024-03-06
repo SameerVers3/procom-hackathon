@@ -66,7 +66,7 @@ const Payments = () => {
     };
 
     return (
-        <div className=''>
+        <div className='border ml-16'>
             <div className='border'>
                 <h2>Payments</h2>
                 <div className="flex gap-8 border p-4">

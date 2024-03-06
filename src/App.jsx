@@ -15,9 +15,6 @@ function App() {
 
   return (
     <> 
-      {/* <Nav/>
-      <MenuDoc/> */}
-      <Mlogin></Mlogin>
     </>
   )
 }

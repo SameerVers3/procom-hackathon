@@ -28,7 +28,7 @@ const InstantPayment = () => {
     };
 
     return (
-        <div className="">
+        <div className="m-16">
             <div className="flex flex-col items-center justify-center h-screen gap-8">
                 <h1 className="text-2xl"><b>Instant Payment</b></h1>
                 <div>
