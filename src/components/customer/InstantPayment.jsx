@@ -37,13 +37,13 @@ const InstantPayment = () => {
                             <Label htmlFor="username" className="mr-auto">
                                 Username
                             </Label>
-                            <Input id="username" placeholder="Enter user name" />
+                            <Input className="bg-slate-100" id="username" placeholder="Enter user name" />
                         </div>
                         <div className="w-64 flex justify-start flex-col gap-3">
                             <Label htmlFor="email" className="mr-auto">
                                 Email Address(Optional)
                             </Label>
-                            <Input id="email" placeholder="Enter your email address" />
+                            <Input className="bg-slate-100" id="email" placeholder="Enter your email address" />
                         </div>
                     </div>
                     <div className="mt-4 flex flex-col gap-5">
@@ -51,13 +51,13 @@ const InstantPayment = () => {
                             <Label htmlFor="paymentamount" className="mr-auto">
                                 Payment Amount
                             </Label>
-                            <Input id="paymentamount" placeholder="abc@gmail.com" />
+                            <Input className="bg-slate-100" id="paymentamount" placeholder="abc@gmail.com" />
                         </div>
                         <div className=" flex justify-start flex-col gap-3">
                             <Label htmlFor="merchantaccount" className="mr-auto">
                                 Merchant Account Number
                             </Label>
-                            <Input id="merchantaccount" placeholder="0123456789" />
+                            <Input className="bg-slate-100" id="merchantaccount" placeholder="0123456789" />
                         </div>
 
                         <div className="">
@@ -78,13 +78,13 @@ const InstantPayment = () => {
                             </Select>
                         </div>
 
-                        <div className="border flex justify-start flex-col gap-3">
+                        <div className="flex justify-start flex-col gap-3">
                             <Label htmlFor="paymentpurpose" className="mr-auto">
                                 Payment Purpose
                             </Label>
-                            <Textarea></Textarea>
+                            <Textarea className="bg-slate-100"></Textarea>
                         </div>
-                        <Button className="mt-4">Sign up</Button>
+                        <Button className="mt-4">Pay</Button>
                     </div>
                 </div>
             </div>
