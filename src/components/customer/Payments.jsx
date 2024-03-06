@@ -33,15 +33,29 @@ function createData(
 // Mock data for the table
 const allRows = [
     createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234erf3e0123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+    createData('1234567890123', '9876543210954', 'Pending', 'Payment Purpose', '03:09 AM', 'Feb 15, 2023', '890 PKR'),
+
     // ... add all your rows here
 ];
 
-const rowsPerPage = 10; // Number of rows per page
+const rowsPerPage = 7; // Number of rows per page
 
 const Payments = () => {
     const [page, setPage] = useState(1);
     const count = Math.ceil(allRows.length / rowsPerPage);
-    const rowsToShow = allRows.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+    const rows = allRows.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 
     const handlePrevious = () => {
         setPage(page > 1 ? page - 1 : page);
