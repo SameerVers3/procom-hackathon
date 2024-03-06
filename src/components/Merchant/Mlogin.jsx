@@ -13,7 +13,10 @@ const Login = () => {
   return (
     <div className="">
       <div className="flex flex-col items-center justify-center h-screen gap-8">
-        <h2 className="text-2xl">Login  PayHabib</h2>
+        <div className="flex flex-col text-center">
+        <h2 className="text-2xl">Login</h2>
+        <h2 className="text-2xl"><b><span className="text-purple-600">PayHabib</span></b> Account</h2>
+        </div>
         <div className="flex flex-col gap-5">
 
 
@@ -40,7 +43,7 @@ const Login = () => {
             </button>
           </div>
 
-          <Button className="mt-4">Sign in</Button>
+          <Button className="mt-4 bg-purple-600 hover:bg-white hover:text-purple-600 hover:border-2">Sign in</Button>
         </div>
       </div>
     </div>
