@@ -66,8 +66,8 @@ const Payments = () => {
     };
 
     return (
-        <>
-            <div style={{ maxHeight: '100vh', overflow: 'auto' }}>
+        <div className=''>
+            <div className='border'>
                 <h2>Payments</h2>
                 <div className="flex gap-8 border p-4">
                     <div className="p-4 border max-w-72">
@@ -151,7 +151,7 @@ const Payments = () => {
                     </PaginationContent>
                 </Pagination>
             </div>
-        </>
+        </div>
     );
 }
 
