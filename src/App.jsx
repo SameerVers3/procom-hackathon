@@ -13,9 +13,8 @@ function App() {
 
   return (
     <> 
-      {/* <Nav/>
-      <MenuDoc/> */}
-      <InstantPayment></InstantPayment>
+      <Nav/>
+      <MenuDoc/>
     </>
   )
 }
