@@ -1,7 +1,7 @@
 import react from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button";
-
+import Mpayments from '../Merchant/Mpayments'
 
 const Mdoc = () => {
 
@@ -94,7 +94,7 @@ const Mdoc = () => {
                     showDashboard && <div>Dashboard</div>
                 }
                 {
-                    showPayments && <div>Payments</div>
+                    showPayments && <Mpayments></Mpayments>
                 }
                 {
                     showCustomers && <div>Customers</div>

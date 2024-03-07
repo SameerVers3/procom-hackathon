@@ -11,6 +11,9 @@ import {
 } from '@/components/ui/select'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
+import { useNavigate } from "react-router-dom";
+import { useContext } from 'react';
+import { UserContext } from '../../context/userContext';
 
 import {
     DropdownMenu,
@@ -24,6 +27,18 @@ import {
 import wallet from "../../assets/wallet.png"
 
 const Nav = () => {
+    
+    const navigate = useNavigate();
+    const { user, setUser } = useContext(UserContext);
+
+
+    const logout = () => {
+        console.log("logout")
+        localStorage.removeItem("userToken");
+        setUser({ isLoggedIn: false, username: "", admin: false });
+        navigate("/login")
+    }
+
     return (
         <div className="border flex justify-between fixed bg-white top-0 left-0 w-full z-10 p-4 px-16">
             <div className='flex gap-4'>
@@ -61,14 +76,11 @@ const Nav = () => {
                 </div>
 
                 <DropdownMenu>
-                    <DropdownMenuTrigger>Sameer Ahmed </DropdownMenuTrigger>
+                    <DropdownMenuTrigger>{user ? user.username : "undefined"}</DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>Profile</DropdownMenuItem>
-                        <DropdownMenuItem>Billing</DropdownMenuItem>
-                        <DropdownMenuItem>Team</DropdownMenuItem>
-                        <DropdownMenuItem>Subscription</DropdownMenuItem>
+                        <DropdownMenuItem onClick={logout} className="bg-red-500 hover:bg-red-700 text-white"><div className='mx-auto'>Logout</div></DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
