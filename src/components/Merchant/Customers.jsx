@@ -54,17 +54,16 @@ const Customers = () => {
     };
 
     return (
-        <div className='border ml-16'>
-            <div className='border'>
+        <div className='ml-16'>
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <TableCell>Customer</TableCell>
-                                <TableCell>Email</TableCell>
-                                <TableCell>Phone</TableCell>                                    
-                                <TableCell>Account Number</TableCell>
-                                <TableCell>Create Date</TableCell>
+                                <TableCell><b className='text-md'>Customer</b></TableCell>
+                                <TableCell><b>Email</b></TableCell>
+                                <TableCell><b>Phone</b></TableCell>                                    
+                                <TableCell><b>Account Number</b></TableCell>
+                                <TableCell><b>Create Date</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -77,10 +76,20 @@ const Customers = () => {
                                     <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
                                 </TableRow>
                             ))}
+
+                                <TableRow>
+                                    <TableCell>ali</TableCell>
+                                    <TableCell>abc@email.com</TableCell>
+                                    <TableCell>123456789</TableCell>
+                                    <TableCell>123456789</TableCell>
+                                    <TableCell>12/69/24</TableCell>
+                                </TableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Pagination className="mt-4">
+        
+                <div className='m-5 float-right'>
+                <Pagination>
                     <PaginationContent>
                         <PaginationItem>
                             <PaginationPrevious onClick={handlePrevious} />
@@ -97,7 +106,7 @@ const Customers = () => {
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
-            </div>
+                </div>
         </div>
     );
 }

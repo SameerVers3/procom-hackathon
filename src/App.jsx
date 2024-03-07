@@ -12,12 +12,15 @@ import Mnav from './components/Merchant/Mnav'
 import PaymentRequest from './components/Merchant/PaymentRequest'
 import Mlogin from "./components/Merchant/Mlogin"
 import Mdashboard from './components/Merchant/Mdashboard'
+import Footer from './components/Merchant/Footer'
 
 import { Toaster } from "@/components/ui/toaster"
 
 import { UserContext } from './context/userContext'
 
 import Dashboard from './components/customer/Dashboard'
+import Customers from './components/Merchant/Customers'
+import Home from './components/Merchant/Home'
 
 function App() {
 
@@ -73,63 +76,66 @@ function App() {
     }, [])
 
     return (
-        <UserContext.Provider value={{ user, setUser }}>
-            <Router>
-                <Toaster />
-                <Routes>
-                <Route
-                        path="/adminlogin"
-                        element={
-                            user.isLoggedIn && user.admin ? (
-                                <Navigate to="/admindashboard" />
-                            ) : (
-                                <Mlogin/>
-                            )
-                        }
-                    />
-                    <Route
-                        path="/admindashboard"
-                        element={
-                            user.isLoggedIn && user.admin? (
-                                <Mdashboard />
-                            ) : (
-                                <Navigate to="/adminlogin" />
-                            )
-                        }
-                    />
-                    <Route
-                        path="/login"
-                        element={
-                            user.isLoggedIn && !user.admin ? (
-                                <Navigate to="/dashboard" />
-                            ) : (
-                                <Login/>
-                            )
-                        }
-                    />
-                    <Route
-                        path="/sign"
-                        element={
-                            user.isLoggedIn? (
-                                <Navigate to="/dashboard" />
-                            ) : (
-                                <Sign/>
-                            )
-                        }
-                    />
-                    <Route
-                        path="/dashboard"
-                        element={
-                            user.isLoggedIn && !user.admin ? (
-                                <Dashboard />
-                            ) : (
-                                <Navigate to="/login" />
-                            )
-                        }
-                    />
-                </Routes>
-            </Router>
-        </UserContext.Provider>
+        // <UserContext.Provider value={{ user, setUser }}>
+        //     <Router>
+        //         <Toaster />
+        //         <Routes>
+        //         <Route
+        //                 path="/adminlogin"
+        //                 element={
+        //                     user.isLoggedIn && user.admin ? (
+        //                         <Navigate to="/admindashboard" />
+        //                     ) : (
+        //                         <Mlogin/>
+        //                     )
+        //                 }
+        //             />
+        //             <Route
+        //                 path="/admindashboard"
+        //                 element={
+        //                     user.isLoggedIn && user.admin? (
+        //                         <Mdashboard />
+        //                     ) : (
+        //                         <Navigate to="/adminlogin" />
+        //                     )
+        //                 }
+        //             />
+        //             <Route
+        //                 path="/login"
+        //                 element={
+        //                     user.isLoggedIn && !user.admin ? (
+        //                         <Navigate to="/dashboard" />
+        //                     ) : (
+        //                         <Login/>
+        //                     )
+        //                 }
+        //             />
+        //             <Route
+        //                 path="/sign"
+        //                 element={
+        //                     user.isLoggedIn? (
+        //                         <Navigate to="/dashboard" />
+        //                     ) : (
+        //                         <Sign/>
+        //                     )
+        //                 }
+        //             />
+        //             <Route
+        //                 path="/dashboard"
+        //                 element={
+        //                     user.isLoggedIn && !user.admin ? (
+        //                         <Dashboard />
+        //                     ) : (
+        //                         <Navigate to="/login" />
+        //                     )
+        //                 }
+        //             />
+        //         </Routes>
+        //     </Router>
+        // </UserContext.Provider>
+        <>
+        <Mnav></Mnav>
+        </>
     )
 }
 
