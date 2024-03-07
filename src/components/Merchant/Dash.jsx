@@ -3,14 +3,15 @@ import Nav from "../customer/Nav";
 import MenuDoc from "../customer/MenuDoc";
 import { Label } from "@/components/ui/label";
 import dashboard from "../../assets/dashboard.png";
+import chart from "../../assets/chart.png";
 const Dash = () => {
-    return(
+    return (
         <>
             <div>
                 <div>
-                    <Nav></Nav>
+                    {/* <Nav></Nav> */}
                 </div>
-                
+
                 <div className="mt-28 mx-10">
                     <h1 className="text-2xl"><b>Dashboard</b></h1>
                 </div>
@@ -20,11 +21,11 @@ const Dash = () => {
                         <Label className="text-xl">Getting Started With Us</Label>
                     </div>
 
-                        <div>
-                            <img src={dashboard} />
-                        </div>
+                    <div>
+                        <img src={dashboard} />
+                    </div>
                     <div className="p-5 flex gap-52">
-                        
+
                         <div className="flex flex-col">
                             <Label className="text-xl">Monitor payment</Label>
                             <br />
@@ -49,6 +50,22 @@ const Dash = () => {
                             <a className="text-purple-600" href="#">Read More</a>
                         </div>
                     </div>
+                </div>
+
+                <div className="m-16 flex-col">
+                    <div className="w-auto">
+                        <hr />
+                    </div>
+                    <div className="mt-10">
+                        <Label>
+                            <h1 className="text-2xl">Reports</h1>
+                        </Label>
+                    </div>
+
+                    <div className="mt-10">
+                        <img className="w-9/12" src={chart} />
+                    </div>
+
                 </div>
             </div>
         </>

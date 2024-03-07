@@ -11,12 +11,15 @@ import Mdoc from './components/Merchant/Mdoc'
 import Mlogin from './components/Merchant/Mlogin'
 import Mnav from './components/Merchant/Mnav'
 import PaymentRequest from './components/Merchant/PaymentRequest'
+import Dash from "./components/Merchant/Dash";
+
 
 import { Toaster } from "@/components/ui/toaster"
 
 import { UserContext } from './context/userContext'
 
 import Dashboard from './components/customer/Dashboard'
+import Mpayments from './components/Merchant/Mpayments'
 
 function App() {
 
