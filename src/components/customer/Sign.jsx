@@ -41,6 +41,7 @@ const Sign = () => {
 
   const handleSignup = async () => {
     setLoading(true);
+    console.log(accountNumber)
 
     try {
       const response = await fetch("http://localhost:3000/auth/signup", {

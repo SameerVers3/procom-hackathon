@@ -23,6 +23,70 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 const PaymentRequest = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [customername, setCustomername] = useState("");
+    const [customeremail, setCustomeremail] = useState("");
+    const [paymentamount, setPaymentamount] = useState("");
+    const [customeraccount, setCustomeraccount] = useState("");
+    const [bankname, setBankname] = useState("");
+    const [paymentpurpose, setPaymentpurpose] = useState("");
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        switch (id) {
+            case "customername":
+                setCustomername(value);
+                break;
+            case "customeremail":
+                setCustomeremail(value);
+                break;
+            case "paymentamount":
+                setPaymentamount(value);
+                break;
+            case "merchantaccount":
+                setMerchantaccount(value);
+                break;
+            case "customeraccount":
+                setCustomeraccount(value);
+                break;
+            case "bankname":
+                setBankname(value);
+                break;
+            case "paymentpurpose":
+                setPaymentpurpose(value);
+                break;
+            default:
+                break;
+        }
+    }
+
+    const handleRequest = async () => {
+        console.log("Requesting Payment");
+        setLoading(true);
+        console.log(customername, customeremail, paymentamount, customeraccount, bankname, paymentpurpose);
+
+        const response = await fetch("http://localhost:3000/request/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `${localStorage.getItem('adminToken')}`
+            },
+            body: JSON.stringify({
+                customername,
+                customeremail,
+                paymentamount,
+                customeraccount,
+                bankname,
+                paymentpurpose
+            }),
+        });
+        
+        const data = await response.json();
+        console.log(data);
+        setLoading(false);
+
+    }
+
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -41,13 +105,13 @@ const PaymentRequest = () => {
                             <Label htmlFor="customername" className="mr-auto">
                                 Customer Name
                             </Label>
-                            <Input className="bg-slate-100" id="customername" placeholder="Enter customer name" />
+                            <Input className="bg-slate-100" id="customername" placeholder="Enter customer name" onChange={handleChange} />
                         </div>
                         <div className="w-64 flex justify-start flex-col gap-3">
                             <Label htmlFor="customeremail" className="mr-auto">
                                Customer Email Address(Optional)
                             </Label>
-                            <Input className="bg-slate-100" id="customeremail" placeholder="Enter your email address" />
+                            <Input className="bg-slate-100" id="customeremail" placeholder="Enter your email address" onChange={handleChange} />
                         </div>
                     </div>
                     <div className="mt-4 flex flex-col gap-5">
@@ -55,35 +119,29 @@ const PaymentRequest = () => {
                             <Label htmlFor="paymentamount" className="mr-auto">
                                 Payment Amount
                             </Label>
-                            <Input className="bg-slate-100" id="paymentamount" placeholder="abc@gmail.com" />
-                        </div>
-                        <div className=" flex justify-start flex-col gap-3">
-                            <Label htmlFor="merchantaccount" className="mr-auto">
-                                Merchant Account Number
-                            </Label>
-                            <Input className="bg-slate-100" id="merchantaccount" placeholder="0123456789" />
+                            <Input className="bg-slate-100" id="paymentamount" placeholder="abc@gmail.com" onChange={handleChange} />
                         </div>
 
                         <div className=" flex justify-start flex-col gap-3">
                             <Label htmlFor="customeraccount" className="mr-auto">
                                 Customer Account Number
                             </Label>
-                            <Input className="bg-slate-100" id="customeraccount" placeholder="0123456789" />
+                            <Input className="bg-slate-100" id="customeraccount" placeholder="0123456789" onChange={handleChange} />
                         </div>
 
                         <div className="">
                             <Label htmlFor="bankname" className="mr-auto">
                                 Select Customer Bank Name
                             </Label>
-                            <Select>
+                            <Select  onValueChange={(value) => setBankname(value)}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select a bank" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
                                         <SelectLabel>Banks</SelectLabel>
-                                        <SelectItem value="bankalhabib">Bank Al Habib</SelectItem>
-                                        <SelectItem value="meezanbank">Meezan Bank</SelectItem>
+                                        <SelectItem value="bank alhabib" >Bank Al Habib</SelectItem>
+                                        <SelectItem value="meezan bank" >Meezan Bank</SelectItem>
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
@@ -93,9 +151,11 @@ const PaymentRequest = () => {
                             <Label htmlFor="paymentpurpose" className="mr-auto">
                                 Payment Purpose
                             </Label>
-                            <Textarea className="bg-slate-100"></Textarea>
+                            <Textarea id="paymentpurpose" className="bg-slate-100" onChange={handleChange}></Textarea>
                         </div>
-                        <Button className="mt-4 w-36 ml-auto bg-purple-600 hover:bg-white hover:text-purple-600 hover:border-2">Request</Button>
+                        <Button className="mt-4 w-36 ml-auto bg-purple-600 hover:bg-white hover:text-purple-600 hover:border-2" onClick={handleRequest}>{
+                            loading ? "Loading..." : "Request"
+                        }</Button>
                     </div>
                 </div>
             </div>

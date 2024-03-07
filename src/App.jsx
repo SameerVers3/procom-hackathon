@@ -8,18 +8,16 @@ import Nav from './components/customer/Nav'
 import MenuDoc from './components/customer/MenuDoc'
 import Payments from './components/customer/Payments'
 import Mdoc from './components/Merchant/Mdoc'
-import Mlogin from './components/Merchant/Mlogin'
 import Mnav from './components/Merchant/Mnav'
 import PaymentRequest from './components/Merchant/PaymentRequest'
-import Dash from "./components/Merchant/Dash";
-
+import Mlogin from "./components/Merchant/Mlogin"
+import Mdashboard from './components/Merchant/Mdashboard'
 
 import { Toaster } from "@/components/ui/toaster"
 
 import { UserContext } from './context/userContext'
 
 import Dashboard from './components/customer/Dashboard'
-import Mpayments from './components/Merchant/Mpayments'
 
 function App() {
 
@@ -31,9 +29,26 @@ function App() {
 
     useEffect(() => {
         const verify = async () => {
-            const token = localStorage.getItem("userToken");
-            console.log(token);
-            if (token) {
+            const token = localStorage.getItem("userToken");  
+            const admintoken = localStorage.getItem("adminToken");
+            if (admintoken){
+                const response = await fetch("http://localhost:3000/auth/verify", {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `${admin}`,
+                    },
+                });
+                const data = await response.json();
+                console.log("here")
+                console.log(data.username)
+                if (data.username) {
+                    console.log("Setting user...");
+                    setUser({ isLoggedIn: true, username: data.username, admin: true });
+                    console.log("User after setting:", user);
+                }
+            }
+            else if (token){
                 const response = await fetch("http://localhost:3000/auth/verify", {
                     method: "GET",
                     headers: {
@@ -62,10 +77,30 @@ function App() {
             <Router>
                 <Toaster />
                 <Routes>
+                <Route
+                        path="/adminlogin"
+                        element={
+                            user.isLoggedIn && user.admin ? (
+                                <Navigate to="/admindashboard" />
+                            ) : (
+                                <Mlogin/>
+                            )
+                        }
+                    />
+                    <Route
+                        path="/admindashboard"
+                        element={
+                            user.isLoggedIn && user.admin? (
+                                <Mdashboard />
+                            ) : (
+                                <Navigate to="/adminlogin" />
+                            )
+                        }
+                    />
                     <Route
                         path="/login"
                         element={
-                            user.isLoggedIn ? (
+                            user.isLoggedIn && !user.admin ? (
                                 <Navigate to="/dashboard" />
                             ) : (
                                 <Login/>
@@ -75,7 +110,7 @@ function App() {
                     <Route
                         path="/sign"
                         element={
-                            user.isLoggedIn ? (
+                            user.isLoggedIn? (
                                 <Navigate to="/dashboard" />
                             ) : (
                                 <Sign/>
@@ -85,7 +120,7 @@ function App() {
                     <Route
                         path="/dashboard"
                         element={
-                            user.isLoggedIn ? (
+                            user.isLoggedIn && !user.admin ? (
                                 <Dashboard />
                             ) : (
                                 <Navigate to="/login" />
