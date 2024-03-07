@@ -3,7 +3,7 @@ import Nav from "../customer/Nav";
 import MenuDoc from "../customer/MenuDoc";
 import { Label } from "@/components/ui/label";
 import dashboard from "../../assets/dashboard.png";
-const Dashboard = () => {
+const Dash = () => {
     return(
         <>
             <div>
@@ -55,4 +55,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default Dash
