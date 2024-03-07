@@ -1,14 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { UserContext } from "../../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    if (e.target.id === "username") {
+      setUsername(e.target.value);
+    } else {
+      setPassword(e.target.value);
+    }
+  }
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const handleSign =  async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("http://localhost:3000/auth/adminlogin", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ username, password }),
+      });
+      const data = await response.json();
+      localStorage.setItem("adminToken", data.token);
+      setUser({ isLoggedIn: true, username: username, admin: true });
+      setLoading(false);
+    }
+    catch (error) {
+      console.error("Error:", error);
+      setLoading(false);
+    }
+    finally {
+      setLoading(false);
+    }
+  }
+
 
   return (
     <div className="">
@@ -21,10 +62,10 @@ const Login = () => {
 
 
           <div className="w-96 flex justify-start flex-col gap-3">
-            <Label htmlFor="phone" className="mr-auto">
+            <Label htmlFor="username" className="mr-auto">
               User name
             </Label>
-            <Input id="phone" placeholder="Enter user name" />
+            <Input id="username" onChange={handleChange} placeholder="Enter user name" />
           </div>
           <div className="w-96 flex justify-start flex-col gap-3 relative">
             <Label htmlFor="password" className="mr-auto">
@@ -33,7 +74,8 @@ const Login = () => {
             <Input
               id="password"
               type={showPassword ? "text" : "password"}
-              placeholder="Enter at least 8+ characters"
+              placeholder="Enter your password"
+              onChange={handleChange}
             />
             <button
               onClick={togglePasswordVisibility}
@@ -43,7 +85,11 @@ const Login = () => {
             </button>
           </div>
 
-          <Button className="mt-4 bg-purple-600 hover:bg-white hover:text-purple-600 hover:border-2">Sign in</Button>
+          <Button className="mt-4 bg-purple-600 hover:bg-white hover:text-purple-600 hover:border-2" onClick={handleSign} >
+            {
+              loading ? "Loading..." : "Sign in"
+            }
+          </Button>
         </div>
       </div>
     </div>

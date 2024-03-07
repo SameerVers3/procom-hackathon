@@ -2,7 +2,8 @@ import react from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button";
 import Mpayments from '../Merchant/Mpayments'
-
+import Customers from "./Customers";
+import PaymentRequest from "./PaymentRequest";
 const Mdoc = () => {
 
     const [showDashboard, setShowDashboard] = useState(true)
@@ -97,10 +98,10 @@ const Mdoc = () => {
                     showPayments && <Mpayments></Mpayments>
                 }
                 {
-                    showCustomers && <div>Customers</div>
+                    showCustomers && <Customers/>
                 }
                 {
-                    showPaymentRequest && <div>Payment Request</div>
+                    showPaymentRequest && <PaymentRequest/>
                 }
                 {
                     showReport && <div>Report</div>
