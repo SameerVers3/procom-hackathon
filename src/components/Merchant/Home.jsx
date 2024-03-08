@@ -4,11 +4,16 @@ import monitor from "../../assets/monitor.png";
 import manage from "../../assets/manage.png";
 import { CiCircleCheck } from "react-icons/ci";
 import { MdCancel } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import Footer from "./Footer"
 const Home = () => {
+
+    const navigate = useNavigate();
+
     return (
         <>
             <div className="relative bg-[url('././assets/home.png')] bg-cover h-screen flex justify-center items-center">
-                <button className="ease-in duration-150 absolute text-purple-500 bg-white border-2 hover:border-purple-500 hover:bg-purple-500 hover:text-white font-bold py-4 px-9 rounded focus:outline-none focus:shadow-outline" style={{ top: '66.3%', left: '15.2%', transform: 'translate(-50%, -50%)' }}>
+                <button onClick={() => navigate("/merchantlogin")} className="ease-in duration-150 absolute text-purple-500 bg-white border-2 hover:border-purple-500 hover:bg-purple-500 hover:text-white font-bold py-4 px-9 rounded focus:outline-none focus:shadow-outline" style={{ top: '66.3%', left: '15.2%', transform: 'translate(-50%, -50%)' }}>
                     Open Account
                 </button>
             </div>
@@ -182,7 +187,7 @@ const Home = () => {
                 </div>
             </div>
 
-            
+            <Footer/>
         </>
     );
 }

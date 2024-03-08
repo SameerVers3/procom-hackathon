@@ -12,7 +12,7 @@ import Mnav from './components/Merchant/Mnav'
 import PaymentRequest from './components/Merchant/PaymentRequest'
 import Mlogin from "./components/Merchant/Mlogin"
 import Mdashboard from './components/Merchant/Mdashboard'
-
+import Home from './components/Merchant/Home'
 import { Toaster } from "@/components/ui/toaster"
 
 import { UserContext } from './context/userContext'
@@ -79,6 +79,7 @@ function App() {
             <Router>
                 <Toaster />
                 <Routes>
+                    <Route path="/" element={<Home />} />
                     <Route
                         path="/merchantlogin"
                         element={
