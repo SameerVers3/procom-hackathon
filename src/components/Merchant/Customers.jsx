@@ -21,11 +21,13 @@ const rowsPerPage = 7; // Number of rows per page
 
 const Customers = () => {
     const [page, setPage] = useState(1);
-    const [users, setUsers] = useState([]);
+    const [customer, setCustomer] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                console.log('Fetching data...');
+                console.log(localStorage.getItem('adminToken'))
                 const response = await fetch('http://localhost:3000/data/getdata', {
                     method: 'GET',
                     headers: {
@@ -33,7 +35,7 @@ const Customers = () => {
                     }
                 });
                 const data = await response.json();
-                setUsers(data);
+                setCustomer(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -42,8 +44,8 @@ const Customers = () => {
         fetchData();
     }, []);
 
-    const count = Math.ceil(users.length / rowsPerPage);
-    const rows = users.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+    const count = Math.ceil(customer.length / rowsPerPage);
+    const rows = customer.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 
     const handlePrevious = () => {
         setPage(page > 1 ? page - 1 : page);
@@ -54,16 +56,17 @@ const Customers = () => {
     };
 
     return (
-        <div className='ml-16'>
+        <div >
+            <div>
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <TableCell><b className='text-md'>Customer</b></TableCell>
-                                <TableCell><b>Email</b></TableCell>
-                                <TableCell><b>Phone</b></TableCell>                                    
-                                <TableCell><b>Account Number</b></TableCell>
-                                <TableCell><b>Create Date</b></TableCell>
+                                <TableCell>Customer</TableCell>
+                                <TableCell>Email</TableCell>
+                                <TableCell>Phone</TableCell>                                    
+                                <TableCell>Account Number</TableCell>
+                                <TableCell>Create Date</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -76,20 +79,10 @@ const Customers = () => {
                                     <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
                                 </TableRow>
                             ))}
-
-                                <TableRow>
-                                    <TableCell>ali</TableCell>
-                                    <TableCell>abc@email.com</TableCell>
-                                    <TableCell>123456789</TableCell>
-                                    <TableCell>123456789</TableCell>
-                                    <TableCell>12/69/24</TableCell>
-                                </TableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>
-        
-                <div className='m-5 float-right'>
-                <Pagination>
+                <Pagination className="mt-4">
                     <PaginationContent>
                         <PaginationItem>
                             <PaginationPrevious onClick={handlePrevious} />
@@ -106,7 +99,7 @@ const Customers = () => {
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
-                </div>
+            </div>
         </div>
     );
 }

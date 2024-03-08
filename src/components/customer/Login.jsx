@@ -40,9 +40,11 @@ const Login = () => {
               body: JSON.stringify({ username, password }),
           });
           const data = await response.json();
-          localStorage.setItem("userToken", data.token);
-          setUser({ isLoggedIn: true, username: username, admin: false });
-          setLoading(false);
+          if (data.success){
+              localStorage.setItem("userToken", data.token);
+              setUser({ isLoggedIn: true, username: username, admin: false });
+              setLoading(false);
+          }
       }
       catch (error) {
           console.error("Error:", error);

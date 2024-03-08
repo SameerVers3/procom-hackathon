@@ -6,7 +6,7 @@ import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 
-
+import { useToast } from "@/components/ui/use-toast"
 
 import {
     Select,
@@ -30,6 +30,9 @@ const PaymentRequest = () => {
     const [customeraccount, setCustomeraccount] = useState("");
     const [bankname, setBankname] = useState("");
     const [paymentpurpose, setPaymentpurpose] = useState("");
+    const [merchantaccount, setMerchantaccount] = useState("");
+
+    const toast = useToast();
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -63,7 +66,7 @@ const PaymentRequest = () => {
     const handleRequest = async () => {
         console.log("Requesting Payment");
         setLoading(true);
-        console.log(customername, customeremail, paymentamount, customeraccount, bankname, paymentpurpose);
+        console.log(customername, customeremail, paymentamount, customeraccount, bankname, paymentpurpose, merchantaccount);
 
         const response = await fetch("http://localhost:3000/request/create", {
             method: "POST",
@@ -77,12 +80,28 @@ const PaymentRequest = () => {
                 paymentamount,
                 customeraccount,
                 bankname,
-                paymentpurpose
+                paymentpurpose,
+                merchantaccount,
+                tstatus: "pending"
             }),
         });
         
         const data = await response.json();
-        console.log(data);
+        if (data.message == "success"){
+            return (
+                toast({
+                  title: "Payment Requested success",
+                })
+              )
+        }
+        else {
+            return (
+                toast({
+                  title: "Payment Requested failed",
+                })
+              )
+        
+        }
         setLoading(false);
 
     }
@@ -127,6 +146,13 @@ const PaymentRequest = () => {
                                 Customer Account Number
                             </Label>
                             <Input className="bg-slate-100" id="customeraccount" placeholder="0123456789" onChange={handleChange} />
+                        </div>
+
+                        <div className=" flex justify-start flex-col gap-3">
+                            <Label htmlFor="merchantaccount" className="mr-auto">
+                                Merchant Account Number
+                            </Label>
+                            <Input className="bg-slate-100" id="merchantaccount" placeholder="0123456789" onChange={handleChange} />
                         </div>
 
                         <div className="">

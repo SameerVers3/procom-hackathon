@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -22,43 +22,36 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination";
 
-function createData(
-    customerAccountNo,
-    status,
-    description,
-    bank,
-    date,
-    customer,
-    amount,
-) {
-    return { customerAccountNo, status, description, bank, date, customer, amount, };
-}
-
-// Mock data for the table
-const allRows = [
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234erf3e0123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-    createData('1234567890123', 'Pending', 'Payment Purpose', 'HBL', 'Feb 15, 2023', 'Ali', '890 PKR'),
-
-    // ... add all your rows here
-];
-
 const rowsPerPage = 7; // Number of rows per page
 
 const Mpayments = () => {
     const [page, setPage] = useState(1);
-    const count = Math.ceil(allRows.length / rowsPerPage);
-    const rows = allRows.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+    const [payment, setPayment] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/request/data', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `${localStorage.getItem('adminToken')}`
+                    }
+                });
+                const data = await response.json();
+                console.log(data)
+                setPayment(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+
+        console.log(payment);
+    }, []);
+
+    const count = Math.ceil(payment.length / rowsPerPage);
+    const rows = payment.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 
     const handlePrevious = () => {
         setPage(page > 1 ? page - 1 : page);
@@ -68,10 +61,50 @@ const Mpayments = () => {
         setPage(page < count ? page + 1 : page);
     };
 
+    const getclasses = (status) => {
+        if (status === 'succeeded') {
+            return 'text-green-500 bg-green-100 rounded-2xl p-2';
+        } else if (status === 'pending') {
+            return 'text-yellow-500 bg-yellow-100 rounded-2xl p-2';
+        } else if (status === 'rejected') {
+            return 'text-red-500 bg-red-100 rounded-2xl p-2';
+        }
+    }
+
+    const paymentSummary = payment.reduce((acc, curr) => {
+        const amount = Number(curr.amount); // Convert amount to a number
+    
+        console.log(amount)
+        if (isNaN(amount)) {
+            return acc;
+        }
+        acc.total.amount += amount;
+        acc.total.records += 1;
+    
+        if (curr.status === 'succeeded') {
+            acc.succeeded.amount += amount;
+            acc.succeeded.records += 1;
+        } else if (curr.status === 'pending') {
+            acc.pending.amount += amount;
+            acc.pending.records += 1;
+        } else if (curr.status === 'rejected') {
+            acc.rejected.amount += amount;
+            acc.rejected.records += 1;
+        }
+    
+        return acc;
+    }, {
+        total: { amount: 0, records: 0 },
+        succeeded: { amount: 0, records: 0 },
+        pending: { amount: 0, records: 0 },
+        rejected: { amount: 0, records: 0 }
+    });
+    
+
     return (
         <div className='m-5'>
             <div className="">
-                <Label><h1 className='text-2xl mb-5'>Payments</h1></Label>
+            <Label><h1 className='text-2xl mb-5'>Payments</h1></Label>
                 <div className="flex gap-20 p-4 mb-16">
                     <div className="p-4 flex gap-4 max-w-72 bg-purple-50 ease-in duration-300 border border-transparent rounded-lg hover:border-[#C940EC]">
                         <div className='flex-col'>
@@ -79,14 +112,14 @@ const Mpayments = () => {
                                 <span className='text-gray-500'>All Payments</span>
                             </div>
                             <div className='mt-2'>
-                                <b><h2 className='text-2xl'>1380 PKR</h2></b>
+                                <b><h2 className='text-2xl'>{paymentSummary.total.amount} PKR</h2></b>
                             </div>
                             <div className="border mt-2 px-3 rounded-2xl border-solid border-[#C940EC]">
-                                <span className='text-[#C940EC]'>234 records</span>
+                                <span className='text-[#C940EC]'>{paymentSummary.total.records} records</span>
                             </div>
                         </div>
                         <div>
-                        <img className='w-auto h-10 rounded-2xl' src={dots}/>
+                            <img className='w-auto h-10 rounded-2xl' src={dots}/>
                         </div>
                     </div>
 
@@ -96,14 +129,14 @@ const Mpayments = () => {
                                 <span className='text-gray-500'>Succeeded</span>
                             </div>
                             <div className='mt-2'>
-                                <b><h2 className='text-2xl'>2380 PKR</h2></b>
+                                <b><h2 className='text-2xl'>{paymentSummary.succeeded.amount} PKR</h2></b>
                             </div>
                             <div className="border mt-2 px-3 rounded-2xl border-solid border-green-600">
-                                <span className='text-green-600'>234 records</span>
+                                <span className='text-green-600'>{paymentSummary.succeeded.records} records</span>
                             </div>
                         </div>
                         <div className=''>
-                        <img className='w-auto h-10 rounded-2xl' src={tick}/>
+                            <img className='w-auto h-10 rounded-2xl' src={tick}/>
                         </div>
                     </div>
                     <div className="p-4 flex gap-4 max-w-72 bg-yellow-50 ease-in duration-300 border border-transparent rounded-lg hover:border-yellow-500">
@@ -112,14 +145,14 @@ const Mpayments = () => {
                                 <span className='text-gray-500'>Pending</span>
                             </div>
                             <div className='mt-2'>
-                                <b><h2 className='text-2xl'>380 PKR</h2></b>
+                                <b><h2 className='text-2xl'>{paymentSummary.pending.amount} PKR</h2></b>
                             </div>
                             <div className="border mt-2 px-3 rounded-2xl border-solid border-yellow-600">
-                                <span className='text-yellow-600'>4 records</span>
+                                <span className='text-yellow-600'>{paymentSummary.pending.records} records</span>
                             </div>
                         </div>
                         <div className=''>
-                        <img className='w-auto h-10 rounded-2xl' src={clock}/>
+                            <img className='w-auto h-10 rounded-2xl' src={clock}/>
                         </div>
                     </div>
 
@@ -129,14 +162,14 @@ const Mpayments = () => {
                                 <span className='text-gray-500'>Rejected</span>
                             </div>
                             <div className='mt-2'>
-                                <b><h2 className='text-2xl'>590 PKR</h2></b>
+                                <b><h2 className='text-2xl'>{paymentSummary.rejected.amount} PKR</h2></b>
                             </div>
                             <div className="border mt-2 px-3 rounded-2xl border-solid border-red-500">
-                                <span className='text-red-500'>4 records</span>
+                                <span className='text-red-500'>{paymentSummary.rejected.records} records</span>
                             </div>
                         </div>
                         <div className=''>
-                        <img className='w-auto h-10 rounded-2xl' src={clock}/>
+                            <img className='w-auto h-10 rounded-2xl' src={clock}/>
                         </div>
                     </div>
                 </div>
@@ -155,9 +188,9 @@ const Mpayments = () => {
                         </TableHead>
                         <TableBody>
                             {rows.map((row) => (
-                                <TableRow key={row.customerAccountNo}>
-                                    <TableCell><span className='text-blue-500'>{row.customerAccountNo}</span></TableCell>
-                                    <TableCell><span className='text-green-500 bg-green-50 rounded-2xl p-2'>{row.status}</span></TableCell>
+                                <TableRow key={row.accountNumber}>
+                                    <TableCell><span className='text-blue-500'>{row.accountNumber}</span></TableCell>
+                                    <TableCell><span className={`${getclasses(row.status)}`}>{row.status}</span></TableCell>
                                     <TableCell>{row.description}</TableCell>
                                     <TableCell>{row.bank}</TableCell>
                                     <TableCell>{row.date}</TableCell>

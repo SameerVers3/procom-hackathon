@@ -45,23 +45,7 @@ const Nav = () => {
                 <img src={wallet} />
                 <div className="flex items-center text-xl font-semibold">Customer Portal</div>
             </div>
-            <div className="flex border items-center ">
-                <div>Icons Here</div>
-
-                <div className="mx-4">
-                    <Select>
-                        <SelectTrigger className="w-[125px]">
-                            <SelectValue placeholder="Select a fruit" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Fruits</SelectLabel>
-                                <SelectItem value="apple">Apple</SelectItem>
-                                <SelectItem value="banana">Banana</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </div>
+            <div className="flex items-center ">
 
                 <Separator orientation="vertical" />
 
@@ -76,7 +60,13 @@ const Nav = () => {
                 </div>
 
                 <DropdownMenu>
-                    <DropdownMenuTrigger>{user ? user.username : "undefined"}</DropdownMenuTrigger>
+                    <DropdownMenuTrigger>
+                        {
+                            user.username 
+                            ? <div className="text-sm font-semibold">{user.username}</div>
+                            : <div className="text-sm font-semibold">My Account</div>
+                        } 
+                    </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                         <DropdownMenuSeparator />
