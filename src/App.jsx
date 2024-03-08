@@ -18,14 +18,21 @@ import { Toaster } from "@/components/ui/toaster"
 import { UserContext } from './context/userContext'
 
 import Dashboard from './components/customer/Dashboard'
+import Msign from './components/Merchant/Msign'
 
 function App() {
 
   const [user, setUser] = useState({ 
     isLoggedIn: false, 
     username: "",
-    admin: false
+    accountNumber: "",
   });
+
+  const [merchant, setMerchant] = useState({
+    isLoggedIn: false,
+    username: "",
+    accountNumber: "",
+  })
 
     useEffect(() => {
         const verify = async () => {
@@ -37,14 +44,13 @@ function App() {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `${admin}`,
+                        "type": "merchant"
                     },
                 });
                 const data = await response.json();
-                console.log("here")
-                console.log(data.username)
                 if (data.username) {
                     console.log("Setting user...");
-                    setUser({ isLoggedIn: true, username: data.username, admin: true });
+                    setMerchant({ isLoggedIn: true, username: data.username, accountNumber: data.accountNumber});
                     console.log("User after setting:", user);
                 }
             }
@@ -57,12 +63,8 @@ function App() {
                     },
                 });
                 const data = await response.json();
-                console.log("here")
-                console.log(data.username)
                 if (data.username) {
-                    console.log("Setting user...");
-                    setUser({ isLoggedIn: true, username: data.username, admin: false });
-                    console.log("User after setting:", user);
+                    setUser({ isLoggedIn: true, username: data.username, accountNumber: data.accountNumber});
                 }
             }
 
@@ -77,23 +79,33 @@ function App() {
             <Router>
                 <Toaster />
                 <Routes>
-                <Route
-                        path="/adminlogin"
+                    <Route
+                        path="/merchantlogin"
                         element={
                             user.isLoggedIn && user.admin ? (
-                                <Navigate to="/admindashboard" />
+                                <Navigate to="/merchantdashboard" />
                             ) : (
                                 <Mlogin/>
                             )
                         }
                     />
                     <Route
-                        path="/admindashboard"
+                        path="/merchantsign"
+                        element={
+                            user.isLoggedIn && user.admin ? (
+                                <Navigate to="/merchantdashboard" />
+                            ) : (
+                                <Msign/>
+                            )
+                        }
+                    />
+                    <Route
+                        path="/merchantdashboard"
                         element={
                             user.isLoggedIn && user.admin? (
                                 <Mdashboard />
                             ) : (
-                                <Navigate to="/adminlogin" />
+                                <Navigate to="/merchantlogin" />
                             )
                         }
                     />

@@ -36,7 +36,7 @@ const Mnav = () => {
         console.log("logout")
         localStorage.removeItem("adminToken");
         setUser({ isLoggedIn: false, username: "", admin: false });
-        navigate("/adminlogin")
+        navigate("/merchantlogin")
     }
 
     return (
@@ -45,23 +45,8 @@ const Mnav = () => {
                 <img src={wallet} />
                 <div className="flex items-center text-xl font-semibold">PayHabib</div>
             </div>
-            <div className="flex border items-center ">
-                <div>Icons Here</div>
+            <div className="flex items-center ">
 
-                <div className="mx-4">
-                    <Select>
-                        <SelectTrigger className="w-[125px]">
-                            <SelectValue placeholder="Select a fruit" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectLabel>Fruits</SelectLabel>
-                                <SelectItem value="apple">Apple</SelectItem>
-                                <SelectItem value="banana">Banana</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </div>
 
                 <Separator orientation="vertical" />
 
@@ -76,7 +61,13 @@ const Mnav = () => {
                 </div>
 
                 <DropdownMenu>
-                    <DropdownMenuTrigger>Sameer Ahmed </DropdownMenuTrigger>
+                    <DropdownMenuTrigger>
+                        {
+                            user.username 
+                            ? <div className="text-sm font-semibold">{user.username}</div>
+                            : <div className="text-sm font-semibold">My Account</div>
+                        } 
+                    </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                         <DropdownMenuSeparator />

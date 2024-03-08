@@ -4,12 +4,14 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
-
+import { useToast } from "@/components/ui/use-toast"
+ 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { toast } = useToast()
 
   const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
@@ -29,7 +31,7 @@ const Login = () => {
   const handleSign =  async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3000/auth/adminlogin", {
+      const response = await fetch("http://localhost:3000/auth/merchantlogin", {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
@@ -37,17 +39,36 @@ const Login = () => {
           body: JSON.stringify({ username, password }),
       });
       const data = await response.json();
-      localStorage.setItem("adminToken", data.token);
-      setUser({ isLoggedIn: true, username: username, admin: true });
-      setLoading(false);
+      if (data.token){
+        console.log(data);
+        localStorage.setItem("adminToken", data.token);
+        setUser({ isLoggedIn: true, username: username, admin: true,});
+        setLoading(false);
+      }
+      else {
+        
+        return (
+          toast({
+            message: "Invalid Login",
+          })
+        )
+      }
     }
     catch (error) {
-      console.error("Error:", error);
+      return (
+        toast({
+          message: "Error while Login",
+        })
+      )
       setLoading(false);
     }
     finally {
       setLoading(false);
     }
+  }
+
+  const navigatetologin = () => {
+    navigate("/merchantsign");
   }
 
 
@@ -90,6 +111,13 @@ const Login = () => {
               loading ? "Loading..." : "Sign in"
             }
           </Button>
+
+          <div onClick={navigatetologin}>
+            Don't have a account ?
+            <a className="hover:underline cursor-pointer ">
+              {"  "} Sign in
+            </a>
+          </div>
         </div>
       </div>
     </div>
