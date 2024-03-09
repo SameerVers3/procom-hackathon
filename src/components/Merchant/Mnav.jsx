@@ -26,26 +26,27 @@ import {
 
 import wallet from "../../assets/wallet.png"
 
-const Nav = () => {
-    
+const Mnav = () => {
+
     const navigate = useNavigate();
     const { user, setUser } = useContext(UserContext);
 
 
     const logout = () => {
         console.log("logout")
-        localStorage.removeItem("userToken");
+        localStorage.removeItem("adminToken");
         setUser({ isLoggedIn: false, username: "", admin: false });
-        navigate("/login")
+        navigate("/merchantlogin")
     }
 
     return (
         <div className="border flex justify-between fixed bg-white top-0 left-0 w-full z-10 p-4 px-16">
             <div className='flex gap-4'>
                 <img src={wallet} />
-                <div className="flex items-center text-xl font-semibold">Customer Portal</div>
+                <div className="flex items-center text-xl font-semibold">PayHabib</div>
             </div>
             <div className="flex items-center ">
+
 
                 <Separator orientation="vertical" />
 
@@ -78,4 +79,4 @@ const Nav = () => {
     )
 }
 
-export default Nav
+export default Mnav

@@ -6,7 +6,7 @@ import { EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast"
  
-const Sign = () => {
+const Msign = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast()
@@ -44,7 +44,7 @@ const Sign = () => {
     console.log(accountNumber)
 
     try {
-      const response = await fetch("http://localhost:3000/auth/signup", {
+      const response = await fetch("http://localhost:3000/auth/merchantsign", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,12 +62,13 @@ const Sign = () => {
           })
         )
 
-      } else if (data.message === "User Created Successfully") {
+      } 
+      else if (data.message === "User Created Successfully") {
           toast({
             title: "User created successfully",
           })
         
-        navigate("/login");
+        navigate("/merchantlogin");
           
       }
       else {
@@ -99,7 +100,7 @@ const Sign = () => {
   };
 
   const navigatetologin = () => {
-    navigate("/login");
+    navigate("/merchantlogin");
   }
 
   return (
@@ -149,14 +150,14 @@ const Sign = () => {
             </button>
           </div>
 
-          <Button className="mt-4" onClick={handleSignup}>{
+          <Button className="mt-4 bg-purple-600 hover:bg-white hover:text-purple-600 hover:border-2" onClick={handleSignup}>{
             loading ? "Loading..." : "Sign up"
           }</Button>
 
           <div onClick={navigatetologin}>
             Don't have a account ?
             <a className="hover:underline cursor-pointer ">
-              {"  "} Sign in
+              {"  "} Login
             </a>
           </div>
         </div>
@@ -165,4 +166,4 @@ const Sign = () => {
   );
 };
 
-export default Sign;
+export default Msign;

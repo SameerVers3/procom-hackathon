@@ -6,13 +6,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Button} from '@/components/ui/button'
+import Button from '@mui/material/Button';
 import { Label } from "@/components/ui/label";
 import dots from "../../assets/dots.png";
 import tick from "../../assets/tick.png";
 import clock from "../../assets/clock.png";
-import { useToast } from "@/components/ui/use-toast"
- 
+
 // Import pagination components from shadcn/ui
 import {
     Pagination,
@@ -22,7 +21,6 @@ import {
     PaginationNext,
     PaginationPrevious,
 } from "@/components/ui/pagination";
-import { toast } from '../ui/use-toast';
 
 const rowsPerPage = 7; // Number of rows per page
 
@@ -33,10 +31,10 @@ const Mpayments = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('http://localhost:3000/data/getuserdata', {
+                const response = await fetch('http://localhost:3000/request/data', {
                     method: 'GET',
                     headers: {
-                        'Authorization': `${localStorage.getItem('userToken')}`
+                        'Authorization': `${localStorage.getItem('adminToken')}`
                     }
                 });
                 const data = await response.json();
@@ -101,38 +99,6 @@ const Mpayments = () => {
         pending: { amount: 0, records: 0 },
         rejected: { amount: 0, records: 0 }
     });
-    
-
-    const updatePaymentStatus = async (accountNumber, customer, amount, date, tstatus) => {
-        const response = await fetch('http://localhost:3000/request/update', {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("userToken") // Include your authentication token here
-            },
-            body: JSON.stringify({
-                accountNumber,
-                customer,
-                amount,
-                tstatus,
-                date
-            })
-        });
-    
-        if (!response.ok) {
-            throw new Error('Failed to update payment status');
-        }
-    
-        const data = await response.json();
-        
-
-            toast({
-                title: "Payment status updated successfully",
-            })
-
-        window.location.reload();
-    };
-    
     
 
     return (
@@ -218,7 +184,6 @@ const Mpayments = () => {
                                 <TableCell><b>Date</b></TableCell>
                                 <TableCell><b>Customer</b></TableCell>
                                 <TableCell><b>Amount</b></TableCell>
-                                <TableCell><b>Actions</b></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -231,20 +196,6 @@ const Mpayments = () => {
                                     <TableCell>{row.date}</TableCell>
                                     <TableCell>{row.customer}</TableCell>
                                     <TableCell><b>{row.amount}</b></TableCell>
-                                    <TableCell>
-                                            {row.status === 'pending' && (
-
-                                                <>
-                                                    <Button className='m-2 bg-green-300 hover:bg-green-400'  onClick={() => updatePaymentStatus(row.accountNumber, row.customer, row.amount, row.date, "succeeded")}>
-                                                        Pay
-                                                    </Button>
-
-                                                    <Button className="m-2 bg-red-300 hover:bg-red-400" onClick={() => updatePaymentStatus(row.accountNumber, row.customer, row.amount, row.date, "rejected")}>
-                                                        Reject
-                                                    </Button>
-                                                </>
-                                            )}
-                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
