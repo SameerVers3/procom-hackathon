@@ -84,7 +84,7 @@ const InstantPayment = () => {
                             </Label>
                             <Textarea></Textarea>
                         </div>
-                        <Button className="mt-4">Sign up</Button>
+                        <Button className="mt-4">Pay</Button>
                     </div>
                 </div>
             </div>
